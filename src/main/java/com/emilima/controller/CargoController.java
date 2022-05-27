@@ -67,7 +67,7 @@ public class CargoController {
 			model.addAttribute("error", "Error al actualizar cargo. " + e.getMessage());
 			e.printStackTrace();
 		}
-		return "actualizar-cargos";
+		return "actualizar-cargo";
 		
 	}
 	
