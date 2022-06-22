@@ -55,6 +55,11 @@ public class CargoController {
 		
 	}
 	
+	@GetMapping("/cargo/actualizar")
+	public String actualizarCargo() {
+		return "actualizar-cargo";
+	}
+	
 	@PostMapping("/cargo/actualizar")
 	public String actualizarCargo(@ModelAttribute Cargo cargo,
 			Model model) {

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="./css/Style.css">
+	<title>Emilima - Acceso al sistema</title>
+</head>
+<body>
+	<div class="container">
+		<div>
+			<section class="header-bar">
+				<h2>EMILIMA</h2>
+			</section>
+		</div>
+		<div>
+			<div class="main-container">
+				<main>
+					<section class="login">
+						<div class="login-header">
+							<h2>Elaboracion de Contratos Laborales</h2>
+							<span>BIENVENIDO</span>
+							<h1>Acceso al Sistema</h1>
+						</div>
+						<div class="login-form">
+							<form action="/acceso" method="post" th:object="${usuario}">
+								<div class="form-cont">
+									<div>
+										<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor">
+											<path d="M8,10c-3.3,0-6,2.7-6,6H0c0-3.2,1.9-6,4.7-7.3C3.7,7.8,3,6.5,3,5c0-2.8,2.2-5,5-5s5,2.2,5,5c0,1.5-0.7,2.8-1.7,3.7c2.8,1.3,4.7,4,4.7,7.3h-2C14,12.7,11.3,10,8,10z M8,2C6.3,2,5,3.3,5,5s1.3,3,3,3s3-1.3,3-3S9.7,2,8,2z">
+											</path>
+										</svg>
+										<label for="inputEmail">Usuario</label> 
+									</div>
+									<input 
+										class="input-form" 
+										type="text"	
+										th:field="*{usuario}"
+										placeholder="Ingrese usuario" 
+										required>
+								</div>
+								<div class="form-cont">
+									<div>
+										<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 448 512" data-fa-i2svg="">
+											<path fill="currentColor" d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z">
+											</path>
+										</svg>
+										<label for="inputPassword">Contraseña</label> 
+									</div>
+									<input 
+										class="input-form" 
+										type="password" 
+										th:field="*{clave}"
+										placeholder="Ingrese Contraseña">
+								</div>
+								<div
+									th:if="${mensaje} != null"
+									class="form-mensaje"
+									th:text="${mensaje}"
+								></div>								
+								<div>
+									<div>
+										<button class="btn btn-submit" type="submit" value="l" name="opcion">Ingresar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</section>
+				</main>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

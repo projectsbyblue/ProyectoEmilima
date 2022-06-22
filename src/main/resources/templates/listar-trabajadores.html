@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head th:insert="head :: head">
+	<meta charset="ISO-8859-1">
+	<title>Emilima - Acceso al sistema</title>
+</head>
+<body>
+	<div class="container">
+		<div th:replace="header :: headerbar"></div>
+		<div class="desktop-container">
+			<div th:replace="header :: headercont"></div>
+			<div class="main-cont">
+				<main>
+                    <div>
+						
+						<section class="head-page">
+							<div class="title-page">
+								<h1>Lista Trabajadores</h1>
+							</div>
+						</section>
+						<section class="body-page">					
+								<div class="table-cont">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Nro DNI</th>
+												<th>Nombres</th>
+												<th>Apellidos</th>
+												<th>Direccion</th>
+												<th>Ciudad</th>
+												<th>Provincia</th>
+												<th>Distrito</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:if test="${listaTrabajadores != null }">
+												<c:forEach items="${listaTrabajadores }" var="t">
+													<tr>
+														<td>${t.dni }</td>
+														<td>${t.nombres }</td>
+														<td>${t.apellidos }</td>
+														<td>${t.direccion }</td>
+														<c:forEach items="${listaCiudades }" var="c">
+															<c:if test="${c.idCiudad == t.idCiudad }">														
+																<td>${c.ciudad }</td>
+															</c:if>
+														</c:forEach>
+														<c:forEach items="${listaProvincias }" var="p">
+															<c:if test="${p.idProvincia == t.idProvincia }">														
+																<td>${p.provincia }</td>
+															</c:if>
+														</c:forEach>
+														
+														<c:forEach items="${listaDistritos }" var="d">
+															<c:if test="${d.idDistrito == t.idDistrito }">
+																<td>${d.distrito }</td>														
+															</c:if>
+														</c:forEach>
+														
+													</tr>
+												</c:forEach>
+											</c:if>
+										</tbody>
+									</table>
+									<c:if test="${listaTrabajadores == null }">
+										<p>No se registro ningun trabajador</p>
+									</c:if>
+								</div>
+						</section>
+					</div>
+				</main>
+			</div>
+		</div>
+		<footer th:replace="footer :: footer"></footer>
+	</div>
+</body>
+</html>

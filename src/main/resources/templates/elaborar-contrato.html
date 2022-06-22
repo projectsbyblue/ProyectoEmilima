@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head th:insert="head :: head">
+	<meta charset="ISO-8859-1">
+	<title>Emilima - Acceso al sistema</title>
+</head>
+<body>
+	<div class="container">
+		<div th:replace="header :: headerbar"></div>
+		<div class="desktop-container">
+			<div th:replace="header :: headercont"></div>
+			<div class="main-cont">
+				<main>
+                    <div>
+						<form action="Contrato" method="post">
+							<div
+								th:if="${mensajeRegistro} != null"
+								class="mensaje-registro"
+								th:text="${mensajeRegistro}"
+							></div>
+							
+							<div
+								th:if="${rutacontrato} != null"
+								class="mensaje-ver-contrato"
+								
+							>
+								<a th:href="@{rutacontrato }" target="_blank">Vizualizar Contrato Generado</a>
+							</div>
+							
+							<section class="head-page">
+								<div class="title-page">
+									<h1>Elaborar Contrato Laboral</h1>
+								</div>
+								<div>
+									<select class="box-tipc" name="tipoContrato" id="">
+										<option value="asignacion" selected>Asignacion de plaza</option>
+										<option value="renovacion">Renovacion de contrato</option>
+									</select>
+								</div>
+							</section>
+							<section class="body-page">
+								<div class="fieldset">
+									<h2>Trabajador</h2>
+								</div>
+								<div class="form-information" th:object="${trabajador}">
+									<div class="form-cont dni">
+										<label class="label-form" for="dni">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-credit-card-2-front" viewBox="0 0 16 16">
+												<path d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z"/>
+												<path d="M2 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
+											</svg>
+											Numero de Documento de Identidad
+										</label>
+										<div class="input-search-dni">
+											<input 
+												class="input-form" 
+												type="text" 
+												id="dni" 
+												th:field="*{dni}" 
+												placeholder="Ingresar Numero de DNI" 
+												required>
+											<button class="btn btn-dni" type="submit" value="b" name="opcion">
+												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+													<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+												</svg>
+											</button>
+										</div>
+										<p
+											th:if="${rutacontrato} != null"
+											class="message-t"
+											th:text="${mensajeTrabajador}"
+											>
+										</p>
+									</div>
+									<div class="info-worker">
+										<div class="form-cont name">
+											<label class="label-form" for="nombres">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+												<path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+											</svg>
+											Nombres
+											</label>
+											<input 
+												class="input-form" 
+												type="text" 
+												th:label="*{nombres}" 
+												id="nombres" 
+												placeholder="Ingresar nombres" >
+										</div>
+										<div class="form-cont name">
+											<label class="label-form" for="apellidos">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+												<path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+											</svg>
+											Apellidos
+											</label>
+											<input 
+												class="input-form" 
+												type="text" 
+												th:label="*{apellidos}" 
+												id="apellidos" 
+												placeholder="Ingresar apellidos" >
+										</div>
+									</div>
+									<div class="info-worker">
+										<div class="form-cont dir">
+											<label class="label-form" for="direccion">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+												<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+												<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+											</svg>
+											Direccion
+											</label>
+											<input 
+												class="input-form" 
+												type="text" 
+												th:label="*{direccion}" 
+												id="direccion"
+												placeholder="Ingresar direccion" >
+										</div>
+										
+										<div class="form-cont ubg">
+											<label class="label-form" for="">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+												<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+												<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+											</svg>
+											Ciudad
+											</label>
+											<select class="input-form" name="ciudad" id="ciudad" onchange="listarProvincias()" >
+												<c:if test="${trabajador != null }">
+													<c:forEach items="${listaProvincias }" var="provincia">
+														<c:if test="${provincia.idProvincia == trabajador.idProvincia }">
+															<option value="${provincia.idProvincia }">${provincia.provincia }</option> 
+														</c:if>
+													</c:forEach>
+												</c:if>
+												<option value="-1">Seleccionar</option>                        	
+												<c:forEach items="${listaCiudades }" var="ciudad">
+													<option value="${ciudad.idCiudad }">${ciudad.ciudad }</option>                        	
+												</c:forEach>
+											</select>
+										</div>
+										<div class="form-cont">
+										
+											<label class="label-form ubg" for="provincia">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+												<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+												<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+											</svg>
+											Provincia
+											</label>
+											<select class="input-form" name="provincia" id="" >
+												<c:if test="${trabajador != null }">
+													<c:forEach items="${listaProvincias }" var="provincia">
+														<c:if test="${provincia.idProvincia == trabajador.idProvincia }">
+															<option value="${provincia.idProvincia }">${provincia.provincia }</option> 
+														</c:if>
+													</c:forEach>"
+												</c:if>
+												<option value="-1">Seleccionar</option>
+												<c:forEach items="${listaProvincias }" var="provincia">
+													<option value="${provincia.idProvincia }">${provincia.provincia }</option>                        	
+												</c:forEach>
+											</select>
+										</div>
+										<div class="form-cont ubg">
+											<label class="label-form" for="">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+												<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+												<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+											</svg>
+											Distrito
+											</label>
+											<select class="input-form" name="distrito" id="">
+												<c:if test="${trabajador != null }">
+													<c:forEach items="${listaDistritos }" var="distrito">
+														<c:if test="${distrito.idDistrito == trabajador.idDistrito }">
+															<option value="${distrito.idDistrito }">${distrito.distrito }</option> 
+														</c:if>
+													</c:forEach>
+												</c:if>
+												<option value="-1">Seleccionar</option>
+												<c:forEach items="${listaDistritos }" var="distrito">
+													<option value="${distrito.idDistrito }">${distrito.distrito }</option>                        	
+												</c:forEach>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="fieldset">
+									<h2>Datos Laborales</h2>
+								</div>
+								<div class="form-information" th:object="${contrato}">
+									<div class="info-worker">
+										<div class="form-cont dir">
+											<label class="label-form" for="motivo">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
+												<path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/>
+												<path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"/>
+											</svg>
+											Motivo
+											</label>
+											<input 
+												class="input-form" 
+												type="text" 
+												th:label="*{motivo}" 
+												id="motivo" 
+												placeholder="Motivo de contratación" >
+										</div>
+										<div class="form-cont ubg">
+											<label class="label-form" for="temporada">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+												<path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+												<path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+											</svg>
+											Temporada
+											</label>
+											<div>
+												<input 
+													class="input-form time" 
+													type="number" 
+													th:label="*{temporada}" 
+													id="temporada" 
+													placeholder="" >
+												 mes(es)
+											</div>
+										</div>
+										<div class="form-cont ubg">
+											<label class="label-form" for="cargo">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+												<path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+												<path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+											</svg>
+											Cargo
+											</label>
+										   <select class="input-form" name="cargo" id="cargo" >
+											   <option value="-1">Seleccionar</option>
+											   <c:forEach items="${listaCargos }" var="cargo">
+													<option value="${cargo.idCargo }">${cargo.cargo }</option>                        	
+												</c:forEach>
+										   </select>
+										</div>
+									</div>
+									<div class="info-worker ubg">
+										<div class="form-cont">
+											<label class="label-form" for="fecInicio">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+												<path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+												<path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+											</svg>
+											Fecha de Inicio
+											</label>
+											<input 
+												class="input-form" 
+												type="date" 
+												th:label="*{fechaInicio}" 
+												id="fecInicio" 
+												placeholder="" >
+										</div>
+										<div class="form-cont ubg">
+											<label class="label-form" for="periodoPrueba">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-range" viewBox="0 0 16 16">
+												<path d="M9 7a1 1 0 0 1 1-1h5v2h-5a1 1 0 0 1-1-1zM1 9h4a1 1 0 0 1 0 2H1V9z"/>
+												<path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+											</svg>
+											Periodo de Prueba
+											</label>
+											<select class="input-form" name="periodoPrueba" id="periodoPrueba">
+												<option value="3">3 meses</option>
+												<option value="6">6 meses</option>
+												<option value="12">12 meses</option>
+											</select>
+										</div>
+										<div class="form-cont">
+											<label class="label-form" for="horaIngreso">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
+												<path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
+												<path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
+											</svg>
+											Horario de Trabajo
+											</label>
+											<div>
+												<input 
+													class="input-form time" 
+													type="text" 
+													th:label="*{horaIng}" 
+													id="horaIngreso" 
+													placeholder="" > A
+												<input 
+													class="input-form time" 
+													type="text" 
+													th:label="horaSal" 
+													id="horaSalida" 
+													placeholder="" >
+											</div>
+										</div>
+									</div>
+									<div class="info-worker ubg">
+										<div class="form-cont">
+											<label class="label-form" for="remuneracion">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
+												<path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
+												<path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2H3z"/>
+											</svg>
+											Remuneracion
+											</label>
+											<input 
+												class="input-form" 
+												type="text" 
+												th:label="*{remuneracion}" 
+												id="remuneracion" 
+												placeholder="S/. Remuneración">
+										</div>
+									</div>
+									<div class="btn-c-cont">
+										<button class="btn btn-submit btn-c" id="m_sweetalert_demo_6" type="submit" value="r" name="opcion">
+											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2-fill" viewBox="0 0 16 16">
+												<path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2v-6z"/>
+											</svg>
+											Guardar Contrato Laboral
+										</button>
+									</div>
+								</div>
+							</section>
+						</form>
+					</div>
+				</main>
+			</div>
+		</div>
+		<footer th:replace="footer :: footer"></footer>
+	</div>
+</body>
+</html>

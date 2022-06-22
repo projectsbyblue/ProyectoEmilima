@@ -38,7 +38,13 @@ public class TrabajadorController {
 		return "registrar-trabajador";
 	}
 	
-	@PostMapping("/trabajador/actualizar")
+	@GetMapping("/trabajador/actualizar")
+	public String actualizarTrabajador(Model model) {
+		
+		return "actualizar-trabajador";
+	}
+	
+	@PostMapping("/trabajador/actualiza")
 	public String actualizarTrabajador(@ModelAttribute Trabajador trabajador,
 			Model model) {
 		System.out.println(trabajador);
@@ -54,6 +60,8 @@ public class TrabajadorController {
 		
 	}
 	
+	
+	
 	@PostMapping("/trabajador/buscar")
 	public String buscarTrabajador(@ModelAttribute Trabajador tr, Model model) {	
 		model.addAttribute("trabajador",repoTrabajador.findById(tr.getIdTrabajador()));	
@@ -61,7 +69,7 @@ public class TrabajadorController {
 		
 	}
 	
-	@PostMapping("/trabajador/listar")
+	@GetMapping("/trabajador/listar")
 	public String listadoTrabajadores(Model model) {		
 		model.addAttribute("lstTrabajadores", repoTrabajador.findAll());
 		return "listar-trabajadores";

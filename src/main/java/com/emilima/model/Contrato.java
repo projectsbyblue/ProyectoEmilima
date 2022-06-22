@@ -15,28 +15,32 @@ import lombok.Data;
 public class Contrato {
 
 	@Id
+	@Column(name = "idcontrato")
 	private String idContrato;
 	
 	@ManyToOne
-	@JoinColumn(name = "idTrabajador")
+	@JoinColumn(name = "idtrabajador")
 	private Trabajador trabajador;
 	private String tipo;
 	private String motivo;
 
-	@Column(name = "idCargo")
+	@Column(name = "idcargo")
 	private String cargo;
 
-	@Column(name = "fecInicio")
+	@Column(name = "fecinicio")
 	private String fechaInicio;
-
+	@Column(name = "horaing")
 	private String horaIng;
+	@Column(name = "horasal")
 	private String horaSal;
+	@Column(name = "fechareg")
 	private String fechaReg;
+	@Column(name = "contratopdf")
 	private String contratoPdf;
 	private String estado;
 	private int temporada;
 
-	@Column(name = "perPrueba")
+	@Column(name = "perprueba")
 	private int periodoPrueba;
 	private double remuneracion;
 	

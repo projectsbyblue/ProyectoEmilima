@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head th:insert="head :: head">
+	<meta charset="ISO-8859-1">
+	<title>Emilima - Acceso al sistema</title>
+</head>
+<body>
+	<div class="container">
+		<div th:replace="header :: headerbar"></div>
+		<div class="desktop-container">
+			<div th:replace="header :: headercont"></div>
+			<div class="main-cont">
+				<main>
+					<section class="desktop-section">
+						<h1>Bienvenido al Sistema</h1>
+					</section>
+				</main>
+			</div>
+		</div>
+		<footer th:replace="footer :: footer"></footer>
+	</div>
+</body>
+</html>

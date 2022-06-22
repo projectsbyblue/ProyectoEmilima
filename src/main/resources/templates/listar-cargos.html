@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head th:insert="head :: head">
+	<meta charset="ISO-8859-1">
+	<title>Emilima - Acceso al sistema</title>
+</head>
+<body>
+	<div class="container">
+		<div th:replace="header :: headerbar"></div>
+		<div class="desktop-container">
+			<div th:replace="header :: headercont"></div>
+			<div class="main-cont">
+				<main>
+                    <div>
+						
+						<section class="head-page">
+							<div class="title-page">
+								<h1>Lista De Cargos</h1>
+							</div>
+						</section>
+						<section class="body-page">					
+								<div class="table-cont">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>ID Cargo</th>
+												<th>Nombre</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:if test="${listaCargos != null }">
+												<c:forEach items="${listaCargos }" var="c">
+													<tr>
+														<td>${c.idCargo }</td>
+														<td>${c.cargo }</td>													
+													</tr>
+												</c:forEach>
+											</c:if>
+										</tbody>
+									</table>
+									<c:if test="${listaCargos == null }">
+										<p>No se registro ningun cargo</p>
+									</c:if>
+								</div>							
+						</section>
+					</div>
+				</main>
+			</div>
+		</div>
+		<footer th:replace="footer :: footer"></footer>
+	</div>
+</body>
+</html>
