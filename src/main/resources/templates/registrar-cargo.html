@@ -12,10 +12,12 @@
 			<div class="main-cont">
 				<main>
                     <div>
-						<form action="cargo" method="post">
+						<form action="/cargo/registrar" method="post" th:object="${cargo}">
 							<c:if test="${mensaje != null }">
+							
 								<div class="mensaje-registro">
-									${mensaje}
+									<div th:if="${success} != null"  th:text="${success}"></div>
+									<div th:if="${error} != null" th:text="${error}"></div>
 								</div>	
 							</c:if>
 							<section class="head-page">
@@ -36,7 +38,7 @@
 											</svg>
 											Nombre de Cargo
 											</label>
-											<input class="input-form" type="text" name="nombre" id="nombre" placeholder="Ingresar nombre de Cargo" required>
+											<input th:field="*{cargo}" class="input-form" type="text" name="nombre" id="nombre" placeholder="Ingresar nombre de Cargo" required>
 										</div>
 									</div>
 								<div class="btn-c-cont">

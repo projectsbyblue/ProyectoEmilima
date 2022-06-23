@@ -23,47 +23,33 @@
 									<table class="table">
 										<thead>
 											<tr>
-												<th>Nro DNI</th>
-												<th>Nombres</th>
-												<th>Apellidos</th>
-												<th>Direccion</th>
-												<th>Ciudad</th>
-												<th>Provincia</th>
-												<th>Distrito</th>
+												<th scope="col">Nro DNI</th>
+												<th scope="col">Nombres</th>
+												<th scope="col">Apellidos</th>
+												<th scope="col">Direccion</th>
+												<th scope="col">Ciudad</th>
+												<th scope="col">Provincia</th>
+												<th scope="col">Distrito</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:if test="${listaTrabajadores != null }">
-												<c:forEach items="${listaTrabajadores }" var="t">
-													<tr>
-														<td>${t.dni }</td>
-														<td>${t.nombres }</td>
-														<td>${t.apellidos }</td>
-														<td>${t.direccion }</td>
-														<c:forEach items="${listaCiudades }" var="c">
-															<c:if test="${c.idCiudad == t.idCiudad }">														
-																<td>${c.ciudad }</td>
-															</c:if>
-														</c:forEach>
-														<c:forEach items="${listaProvincias }" var="p">
-															<c:if test="${p.idProvincia == t.idProvincia }">														
-																<td>${p.provincia }</td>
-															</c:if>
-														</c:forEach>
-														
-														<c:forEach items="${listaDistritos }" var="d">
-															<c:if test="${d.idDistrito == t.idDistrito }">
-																<td>${d.distrito }</td>														
-															</c:if>
-														</c:forEach>
-														
+											<c:if test="${lstTrabajadores != null }">
+												<c:forEach items="${lstTrabajadores}" var="t">
+													<tr th:each = "t : *{lstTrabajadores}">
+														<td scope="row" th:text="${t.dni}"></td>
+														<td th:text="${t.nombres}"></td>
+														<td th:text="${t.apellidos}"></td>
+														<td th:text="${t.direccion}"></td>												
+														<td th:text="${t.idCiudad}"></td >													
+														<td th:text="${t.idProvincia}"></td>
+														<td th:text="${t.idDistrito}"></td>
 													</tr>
 												</c:forEach>
 											</c:if>
 										</tbody>
-									</table>
-									<c:if test="${listaTrabajadores == null }">
-										<p>No se registro ningun trabajador</p>
+									</table> 
+									<c:if test="${lstTrabajadores == null }">
+										<!--<div th:if="${mensaje} != null" th:text="${mensaje}"></div>-->
 									</c:if>
 								</div>
 						</section>
