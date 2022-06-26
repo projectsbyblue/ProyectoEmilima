@@ -28,18 +28,18 @@
 											</tr>
 										</thead>
 										<tbody>
-											<c:if test="${listaCargos != null }">
-												<c:forEach items="${listaCargos }" var="c">
-													<tr>
-														<td>${c.idCargo }</td>
-														<td>${c.cargo }</td>													
+											<c:if test="${lstCargos != null }">
+												<c:forEach items="${lstCargos }" var="c">
+													<tr th:each = "c : *{lstCargos}">
+														<td th:text="${c.idCargo}"></td>
+														<td th:text="${c.cargo}"></td>												
 													</tr>
 												</c:forEach>
 											</c:if>
 										</tbody>
 									</table>
-									<c:if test="${listaCargos == null }">
-										<p>No se registro ningun cargo</p>
+									<c:if test="${lstCargos == null }">
+										<!--<div th:if="${mensaje} != null" th:text="${mensaje}"></div>-->
 									</c:if>
 								</div>							
 						</section>
