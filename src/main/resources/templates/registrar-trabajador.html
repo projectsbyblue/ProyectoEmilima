@@ -12,10 +12,11 @@
 			<div class="main-cont">
 				<main>
 					<div>
-						<form action="trabajador" method="post">
+						<form action="/trabajador/registrar" method="post" th:object="${trabajador}">
 							<c:if test="${mensaje != null }">
 								<div class="mensaje-registro">
-									${mensaje}
+									<div th:if="${success} != null"  th:text="${success}"></div>
+									<div th:if="${error} != null" th:text="${error}"></div>
 								</div>	
 							</c:if>
 							<section class="head-page">
@@ -37,9 +38,9 @@
 											Numero de Documento de Identidad
 										</label>
 										<div class="input-search-dni">
-											<input class="input-form border-radius" type="text" id="dni" name="dni" value="${trabajador.dni }" placeholder="Ingresar Numero de DNI" required>
+											<input th:field="*{dni}" class="input-form border-radius" type="text" id="dni" name="dni" placeholder="Ingresar Numero de DNI" required>
 										</div>
-										<p class="message-t">${mensajeTrabajador }</p>
+										<p class="message-t"></p>
 									</div>
 									<div class="info-worker">
 										<div class="form-cont name">
@@ -49,7 +50,7 @@
 											</svg>
 											Nombres
 											</label>
-											<input class="input-form" type="text" name="nombres" id="nombres" value="${trabajador.nombres }" placeholder="Ingresarr nombres" required>
+											<input th:field="*{nombres}"class="input-form" type="text" name="nombres" id="nombres" placeholder="Ingresarr nombres" required>
 										</div>
 									</div>
 									<div class="info-worker">
@@ -60,7 +61,7 @@
 											</svg>
 											Apellidos
 											</label>
-											<input class="input-form" type="text" name="apellidos" id="apellidos" value="${trabajador.apellidos }" placeholder="Ingresar apellidos" required>
+											<input th:field="*{apellidos}" class="input-form" type="text" name="apellidos" id="apellidos"  placeholder="Ingresar apellidos" required>
 										</div>
 									</div>
 									<div class="info-worker">
@@ -72,22 +73,10 @@
 											</svg>
 											Direccion
 											</label>
-											<input class="input-form" type="text" name="direccion" id="direccion" value="${trabajador.direccion }" placeholder="Ingresar Direccion" required>
+											<input th:field="*{direccion}" class="input-form" type="text" name="direccion" id="direccion" placeholder="Ingresar Direccion" required>
 										</div>
 									</div>
-										<%-- Listar Ciudades, Provincias y Distritos --%>
-										<%
-											DAOFactory fabrica = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-											   ArrayList<CiudadDTO> listaCiudades = fabrica.getCiudadDAO().listarCiudades();
-											   ArrayList<ProvinciaDTO> listaProvincias = fabrica.getProvinciaDAO().listarProvincias(1);
-											   ArrayList<DistritoDTO> listaDistritos = fabrica.getDistritoDAO().listarDistritos(1);
-											   ArrayList<CargoDTO> listaCargos = fabrica.getCargoDAO().listarCargos();
-											   request.setAttribute("listaCiudades", listaCiudades);
-											   request.setAttribute("listaProvincias", listaProvincias);
-											   request.setAttribute("listaDistritos", listaDistritos);
-											   request.setAttribute("listaCargos", listaCargos);
-											   
-										%>
+									<!--
 									<div class="info-worker">
 										<div class="form-cont ubg">
 											<label class="label-form" for="">
@@ -99,12 +88,13 @@
 											</label>
 											<select class="input-form" name="ciudad" id="" required>
 												<option value="-1">Seleccionar</option>                        	
-												<c:forEach items="${listaCiudades }" var="ciudad">
-													<option value="${ciudad.idCiudad }">${ciudad.ciudad }</option>                        	
+												<c:forEach items="${listaCiudades}" var="ciudad">
+													<option value="1" th:field="*{idciudad}"></option>                        	
 												</c:forEach>
 											</select>
 										</div>
 									</div>
+									
 									<div class="info-worker">
 										<div class="form-cont">
 										
@@ -118,7 +108,7 @@
 											<select class="input-form" name="provincia" id="" required>
 												<option value="-1">Seleccionar</option>
 												<c:forEach items="${listaProvincias }" var="provincia">
-													<option value="${provincia.idProvincia }">${provincia.provincia }</option>                        	
+													<option value="1" th:field="*{idprovincia}"></option>                        	
 												</c:forEach>
 											</select>
 										</div>
@@ -135,12 +125,13 @@
 											<select class="input-form" name="distrito" id="" required>
 												<option value="-1">Seleccionar</option>
 												<c:forEach items="${listaDistritos }" var="distrito">
-													<option value="${distrito.idDistrito }">${distrito.distrito }</option>                        	
+													<option value="1" th:field="*{iddistrito}"></option>                        	
 												</c:forEach>
 											</select>
 										</div>
 									</div>
 								</div>
+								-->
 								<div class="btn-c-cont">
 									<button class="btn btn-submit btn-c" type="submit" value="r" name="opcion">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2-fill" viewBox="0 0 16 16">
