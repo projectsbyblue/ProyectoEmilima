@@ -13,7 +13,7 @@
 			<div class="main-cont">
 				<main>
                     <div>
-						<form action="trabajador/actualiza" method="post" th:object="${trabajador}">
+						<form action="trabajador/actualizar" method="post" th:object="${trabajador}">
 							<c:if test="${mensaje != null }">
 								<div class="mensaje-registro">
 									<div th:if="${success} != null"  th:text="${success}"></div>
