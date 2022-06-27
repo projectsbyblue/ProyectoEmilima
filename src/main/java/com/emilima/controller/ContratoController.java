@@ -103,14 +103,14 @@ public class ContratoController {
 	}
 
 	@GetMapping("/contrato/lista")
-	public String listar(Model model) {
+	public String listar(@ModelAttribute Contrato contrato, Model model) {
 		model.addAttribute("listaContratos", contratoRepo.findAll());
 		return "buscar-contrato";
 	}
 	
 	@PostMapping("/contrato/buscar")
-	public String buscar(@RequestParam(name = "codigo") String codigo, Model model) {
-		model.addAttribute("listaContratos", contratoRepo.findById(codigo));
+	public String buscar(@RequestParam(name = "idContrato") String idcontrato, @ModelAttribute Contrato contrato, Model model) {
+		model.addAttribute("listaContratos", contratoRepo.findById(idcontrato));
 		return "buscar-contrato";
 	}
 	

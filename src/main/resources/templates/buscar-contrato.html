@@ -19,9 +19,9 @@
 			</div>
 		</section>
 		<section class="body-page">
-			<form action="Contrato" method="post">
+			<form action="/contrato/buscar" method="post" th:object="${contrato}">
 				<div class="form-information">
-					<div class="form-cont dni">
+					<div class="form-cont ">
 						<label class="label-form" for="dni">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 								class="bi bi-file-earmark-text" viewBox="0 0 16 16">
@@ -32,9 +32,13 @@
 							</svg>
 							Bucar Contrato:
 						</label>
-						<div class="input-search-dni">
-							<input class="input-form" type="text" id="idContrato" name="idContrato"
-								placeholder="Ingresar codigo de contrato" required>
+						<div class="input-search-dni" >
+							<input 
+							th:field="*{idContrato}"
+							class="input-form" type="text" id="idContrato" name="idContrato"
+							placeholder="Ingresar codigo de contrato" required
+							/>
+							
 							<button class="btn btn-dni" type="submit" value="bc" name="opcion">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 									class="bi bi-search" viewBox="0 0 16 16">
@@ -43,7 +47,7 @@
 								</svg>
 							</button>
 						</div>
-						<p class="message-t">${mensajeContrato }</p>
+						<p class="message-t"></p>
 					</div>
 				</div>
 			</form>
@@ -51,22 +55,22 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>Numero de contrato</th>
-							<th>Fecha</th>
-							<th>Tipo Contrato</th>
-							<th>Estado</th>
-							<th>Contrato Adjunto PDF</th>
-							<th></th>
+							<th scope="col">Numero de contrato</th>
+							<th scope="col">Fecha</th>
+							<th scope="col">Tipo Contrato</th>
+							<th scope="col">Estado</th>
+							<th scope="col">Contrato Adjunto PDF</th>
+							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:if test="${listaContratos != null }">
 							<c:forEach items="${listaContratos }" var="c">
-								<tr>
-									<td>${c.idContrato }</td>
-									<td>${c.fechaInicio }</td>
-									<td>${c.tipo }</td>
-									<td>${c.estado }</td>
+								<tr th:each = "c : *{listaContratos}">
+									<td scope="row" th:text="${c.idContrato}"></td>
+									<td th:text="${c.fechaInicio}"></td>
+									<td th:text="${c.tipo}"></td>
+									<td th:text="${c.estado}"></td>
 									<c:if test="${c.contratoPdf == null }">
 										<td>No Adjunto</td>
 									</c:if>
@@ -105,7 +109,7 @@
 					</tbody>
 				</table>
 				<c:if test="${listaContratos == null }">
-					<p> Lista de contratos vacia</p>
+					<p></p>
 				</c:if>
 			</div>	
 		</section>
