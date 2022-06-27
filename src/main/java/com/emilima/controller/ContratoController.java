@@ -1,13 +1,20 @@
 package com.emilima.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
+import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ResourceUtils;
@@ -15,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.emilima.model.Contrato;
 import com.emilima.model.Trabajador;
@@ -22,7 +30,6 @@ import com.emilima.repository.ICargoRepository;
 import com.emilima.repository.IContratoRepository;
 import com.emilima.repository.ITrabajadorRepository;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -41,6 +48,9 @@ public class ContratoController {
 	
 	@Autowired
 	private ResourceLoader resourceLoader;
+	
+	@Autowired
+	private DataSource dataSource;
 	
 	@GetMapping("/contrato/registro")
 	public String registro(Model model) {
@@ -131,23 +141,37 @@ public class ContratoController {
 	}
 	
 	@PostMapping("/contrato/actualizar")
-	public String actualizar(@RequestParam(name = "id") String id,Model model) {
+	public ResponseEntity<Object> actualizar(
+			@RequestParam("file") MultipartFile file,
+			@RequestParam(name = "nombre") String nombre,
+			@RequestParam(name = "id") String id,
+			
+			Model model) {
 		// validar archivo y guardar
-		Contrato contrato = null;
-		Optional<Contrato> reg = contratoRepo.findById(id);
 		
-		if(!reg.isPresent()) {
-			model.addAttribute("mensaje", "Error al actualizar contrato");
-			return "buscar-contrato";
+		if(!file.isEmpty()) {
+			Path ruta = null;
+			Contrato contrato = null;
+			
+			try {
+				byte[] bytes = file.getBytes();
+				
+				Optional<Contrato> reg = contratoRepo.findById(id);
+				if(reg.isPresent()) {
+					contrato = reg.get();
+					ruta = Paths.get(ResourceUtils.getFile("classpath:static").getPath() + contrato.getContratoPdf());
+					
+				}
+				
+				Files.write(ruta, bytes);
+				contrato.setEstado("Visado y Firmado");
+				contratoRepo.save(contrato);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
 		
-		contrato = reg.get();
-		contrato.setEstado("Visado y Firmado");
-		contrato.setContratoPdf("");
-		
-		contratoRepo.save(contrato);
-		
-		return "buscar-contrato";
+		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
 	private String codigoCorrelativoContrato(String idContrato) {
@@ -210,23 +234,39 @@ public class ContratoController {
 		String rutaContratos = "";
 		String plantilla = "";
 		String url = "";
+		File dir = null;
 		
 		try {
 		
 			if(contrato.getTipo().equals("asignacion")) {
+				dir = new File(ResourceUtils.getFile("classpath:static").getPath() + "/contratos/asignacion/");
+				if(!dir.exists()) {
+					dir.mkdirs();					
+				}
+				
 				rutaContratos = ResourceUtils.getFile("classpath:static/contratos/asignacion/").getPath();			
-				plantilla = resourceLoader.getResource("classpath:/static/reportes/contratoasignacionplaza.jasper").getURI().getPath();
+				plantilla = resourceLoader.getResource("classpath:/static/reportes/contratoasignacion.jasper").getURI().getPath();
 				url = "/contratos/asignacion";
 			} else {
+				dir = new File(ResourceUtils.getFile("classpath:static").getPath() + "/contratos/renovacion/");
+				if(!dir.exists()) {
+					dir.mkdirs();					
+				}
+				
 				rutaContratos = ResourceUtils.getFile("classpath:static/contratos/renovacion/").getPath();			
 				plantilla = resourceLoader.getResource("classpath:/static/reportes/contratorenovacioncontrato.jasper").getURI().getPath();
 				url = "/contratos/renovacion";
+				dir = new File(rutaContratos);
 			}
 			
+			
+			
 			HashMap<String, Object> parametros = new HashMap<String, Object>();
-			parametros.put("idcontrato",contrato.getIdContrato());
+			parametros.put("idcontrato", contrato.getIdContrato());
+			
+			System.out.println(parametros);
 
-			JasperPrint jasperPrint = JasperFillManager.fillReport(plantilla, parametros, new JREmptyDataSource());
+			JasperPrint jasperPrint = JasperFillManager.fillReport(plantilla, parametros, dataSource.getConnection());
 			JasperExportManager.exportReportToPdfFile(jasperPrint, rutaContratos + nombre);
 			
 			return url + nombre;

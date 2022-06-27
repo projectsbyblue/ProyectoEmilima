@@ -13,13 +13,12 @@
 			<div class="main-cont">
 				<main>
                     <div>
-						<form action="trabajador/actualizar" method="post" th:object="${trabajador}">
-							<c:if test="${mensaje != null }">
-								<div class="mensaje-registro">
-									<div th:if="${success} != null"  th:text="${success}"></div>
-									<div th:if="${error} != null" th:text="${error}"></div>
-								</div>	
-							</c:if>
+						<form action="/trabajador/actualizar" method="post" th:object="${trabajador}">
+							<div
+								th:if="${mensajeRegistro} != null"
+								class="mensaje-registro"
+								th:text="${mensajeRegistro}"
+							></div>
 							<section class="head-page">
 								<div class="title-page">
 									<h1>Actualizar Trabajador</h1>
@@ -39,14 +38,19 @@
 											Numero de Documento de Identidad
 										</label>
 										<div class="input-search-dni">
-											<input th:field="*{dni}" class="input-form" type="text" id="dni" name="dni" value="${trabajador.dni }" placeholder="Ingresar Numero de DNI" required>
+											<input th:field="*{dni}" class="input-form" type="text" id="dni" placeholder="Ingresar Numero de DNI" required>
 											<button class="btn btn-dni" type="submit" value="b" name="opcion">
 												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
 													<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
 												</svg>
 											</button>
 										</div>
-										<p class="message-t">${mensajeTrabajador }</p>
+										<p
+											th:if="${mensajeTrabajador} != null"
+											class="message-t"
+											th:text="${mensajeTrabajador}"
+											>
+										</p>
 									</div>
 									<div class="info-worker">
 										<div class="form-cont name">
@@ -82,19 +86,6 @@
 											<input th:field="*{direccion}" class="input-form" type="text" name="direccion" id="direccion" value="${trabajador.direccion }" placeholder="Ingresar Direccion" >
 										</div>
 									</div>
-										<%-- Listar Ciudades, Provincias y Distritos --%>
-										<%
-											DAOFactory fabrica = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-											   ArrayList<CiudadDTO> listaCiudades = fabrica.getCiudadDAO().listarCiudades();
-											   ArrayList<ProvinciaDTO> listaProvincias = fabrica.getProvinciaDAO().listarProvincias(1);
-											   ArrayList<DistritoDTO> listaDistritos = fabrica.getDistritoDAO().listarDistritos(1);
-											   ArrayList<CargoDTO> listaCargos = fabrica.getCargoDAO().listarCargos();
-											   request.setAttribute("listaCiudades", listaCiudades);
-											   request.setAttribute("listaProvincias", listaProvincias);
-											   request.setAttribute("listaDistritos", listaDistritos);
-											   request.setAttribute("listaCargos", listaCargos);
-											   
-										%>
 									<div class="info-worker">
 										<div class="form-cont ubg">
 											<label class="label-form" for="">
@@ -104,24 +95,14 @@
 											</svg>
 											Ciudad
 											</label>
-											<select class="input-form" name="ciudad" id="">
-												<c:if test="${trabajador != null }">
-													<c:forEach items="${listaCiudades }" var="ciudad">
-														<c:if test="${ciudad.idCiudad == trabajador.idCiudad }">
-															<option value="${ciudad.idCiudad }">${ciudad.ciudad }</option> 
-														</c:if>
-													</c:forEach>"
-												</c:if>
+											<select class="input-form" th:field="*{idCiudad}">												
 												<option value="-1">Seleccionar</option>                        	
-												<c:forEach items="${listaCiudades }" var="ciudad">
-													<option value="${ciudad.idCiudad }">${ciudad.ciudad }</option>                        	
-												</c:forEach>
+												<option value="1">Test</option>                        	
 											</select>
 										</div>
 									</div>
 									<div class="info-worker">
 										<div class="form-cont">
-										
 											<label class="label-form ubg" for="provincia">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
 												<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
@@ -129,18 +110,10 @@
 											</svg>
 											Provincia
 											</label>
-											<select class="input-form" name="provincia" id="">
-												<c:if test="${trabajador != null }">
-													<c:forEach items="${listaProvincias }" var="provincia">
-														<c:if test="${provincia.idProvincia == trabajador.idProvincia }">
-															<option value="${provincia.idProvincia }">${provincia.provincia }</option> 
-														</c:if>
-													</c:forEach>
-												</c:if>
+											<select class="input-form" name="provincia" th:field="*{idProvincia}">
 												<option value="-1">Seleccionar</option>
-												<c:forEach items="${listaProvincias }" var="provincia">
-													<option value="${provincia.idProvincia }">${provincia.provincia }</option>                        	
-												</c:forEach>
+												<option value="1">Test</option>                       	
+
 											</select>
 										</div>
 									</div>
@@ -153,18 +126,9 @@
 											</svg>
 											Distrito
 											</label>
-											<select class="input-form" name="distrito" id="">
-												<c:if test="${trabajador != null }">
-													<c:forEach items="${listaDistritos }" var="distrito">
-														<c:if test="${distrito.idDistrito == trabajador.idDistrito }">
-															<option value="${distrito.idDistrito }">${distrito.distrito }</option> 
-														</c:if>
-													</c:forEach>
-												</c:if>
+											<select class="input-form" name="distrito" th:field="*{idDistrito}">
 												<option value="-1">Seleccionar</option>
-												<c:forEach items="${listaDistritos }" var="distrito">
-													<option value="${distrito.idDistrito }">${distrito.distrito }</option>                        	
-												</c:forEach>
+												<option value="1">Test</option>                        	
 											</select>
 										</div>
 									</div>

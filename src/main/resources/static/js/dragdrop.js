@@ -69,11 +69,10 @@ async function uploadFile(file, id){
     const formData = new FormData();
     formData.append("file",file);
     formData.append("nombre",file.name);
-    formData.append("opcion","u");
     var idContrato = document.getElementById("codigoV").textContent;
-    formData.append("idContrato",idContrato);
+    formData.append("id",idContrato);
     try {
-        const response = await fetch("Contrato", {
+        const response = await fetch("actualizar", {
             method: "POST",
             body: formData,
         });

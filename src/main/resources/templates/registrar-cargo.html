@@ -13,13 +13,11 @@
 				<main>
                     <div>
 						<form action="/cargo/registrar" method="post" th:object="${cargo}">
-							<c:if test="${mensaje != null }">
-							
-								<div class="mensaje-registro">
-									<div th:if="${success} != null"  th:text="${success}"></div>
-									<div th:if="${error} != null" th:text="${error}"></div>
-								</div>	
-							</c:if>
+							<div
+								th:if="${mensajeRegistro} != null"
+								class="mensaje-registro"
+								th:text="${mensajeRegistro}"
+							></div>
 							<section class="head-page">
 								<div class="title-page">
 									<h1>Registrar Cargo</h1>

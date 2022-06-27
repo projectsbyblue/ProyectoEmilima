@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head th:insert="head :: head">
-	<meta charset="ISO-8859-1">
+	<meta charset="utf-8">
 	<title>Emilima - Acceso al sistema</title>
 </head>
 <body>
@@ -71,7 +71,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each = "c : *{listaContratos}">
+						<tr th:each = "c : ${listaContratos}">
 							<td scope="row" th:text="${c.idContrato}"></td>
 							<td th:text="${c.fechaInicio}"></td>
 							<td th:text="${c.tipo}"></td>
@@ -89,17 +89,14 @@
 								</a>
 							</td>
 							<td class="menu-cont">
-								<a  class="menu-icon">
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-										fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-										<path fill-rule="evenodd"
-											d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+								<a th:data-parameter1="${c.idContrato}" onclick="mostrarMenu(this.getAttribute('data-parameter1'));"  class="menu-icon">
+									<svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+										<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
 									</svg>
 								</a>
-								<div id="${c.idContrato}" class="menu-cont-open">
+								<div th:id="${c.idContrato}" class="menu-cont-open">
 									<ul>
-										<li><a onclick="mostrarVista('${c.idContrato}')">Adujuntar
-												Contrato VF</a></li>
+										<li><a th:data-parameter1="${c.idContrato}" onclick="mostrarVista(this.getAttribute('data-parameter1'));">Adujuntar Contrato VF</a></li>
 									</ul>
 								</div>
 							</td>

@@ -1,11 +1,14 @@
 package com.emilima.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.emilima.model.Cargo;
 import com.emilima.repository.ICargoRepository;
@@ -35,39 +38,46 @@ public class CargoController {
 		
 		try {
 			repoCargo.save(cargo);
-			model.addAttribute("success", "Cargo registrado.");
+			model.addAttribute("mensajeRegistro", "Cargo registrado.");
 		} catch (Exception e) {
-			model.addAttribute("error", "Error al registrar cargo.");
+			model.addAttribute("mensajeRegistro", "Error al registrar cargo.");
 			e.printStackTrace();
 		}
 		return "registrar-cargo";
 		
 	}
 	
-	@PostMapping("/cargo/buscar")
-	public String buscarCargo(@ModelAttribute Cargo c,
-			Model model) {
-		System.out.println(c);
-		
-		model.addAttribute("cargo",repoCargo.findById(c.getIdCargo()));
-		
-		return "actualizar-cargo";
-		
-	}
-	
 	@GetMapping("/cargo/actualizar")
-	public String actualizarCargo() {
+	public String actualizarCargo(Model model) {
+		model.addAttribute("cargo", new Cargo());
 		return "actualizar-cargo";
 	}
 	
 	@PostMapping("/cargo/actualizar")
-	public String actualizarCargo(@ModelAttribute Cargo cargo,
+	public String actualizarCargo(@RequestParam(name="opcion") String opcion,
+			@ModelAttribute Cargo cargo,
 			Model model) {
-		System.out.println(cargo);
+		
+		Optional<Cargo> reg = repoCargo.findById(cargo.getIdCargo());		
+		
+		if(opcion.equals("b")) {
+			if(reg.isPresent()) {
+				cargo = reg.get();
+				model.addAttribute("cargo", cargo);
+			} else {
+				model.addAttribute("mensajeCargo", "Cargo no encontrado");
+			}
+			
+			return "actualizar-cargo";				
+		}
 		
 		try {
-			repoCargo.save(cargo);
-			model.addAttribute("success", "Cargo actualizado.");
+			if(reg.isPresent()) {
+				repoCargo.save(cargo);				
+				model.addAttribute("mensajeRegistro", "Cargo actualizado.");
+			} else {				
+				model.addAttribute("mensajeRegistro", "Error al actualiar cargo, codigo de cargo no encontrado");
+			}
 		} catch (Exception e) {
 			model.addAttribute("error", "Error al actualizar cargo. " + e.getMessage());
 			e.printStackTrace();

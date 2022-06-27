@@ -38,7 +38,7 @@ function cerraVista(){
     document.getElementById("dragArea").style.display = "block";
     document.getElementById("preview").innerHTML = `
                     `;
-    window.location.replace("/ProyectoEmilima/Contrato?opcion=l");
+    window.location.replace("/contrato/lista");
 }
 
 function desplegarSub(idMenu){

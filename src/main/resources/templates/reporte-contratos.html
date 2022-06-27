@@ -12,7 +12,7 @@
 			<div class="main-cont">
 				<main>
                     <div>
-						<form action="reporte?tipoReporte=contratos" method="post">
+						<form action="/reporte/contratos" method="post">
 							<section class="head-page">
 								<div class="title-page">
 									<h1>Reporte De Contratos</h1>
@@ -50,7 +50,7 @@
 											</svg>
 											Filtrar
 										</button>
-										<button class="btn btn-submit btn-c" type="submit" value="l" name="opcion">
+										<button class="btn btn-submit btn-c" type="button" onclick="window.location.href='/reporte/contratos'">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2-fill" viewBox="0 0 16 16">
 												<path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2v-6z"/>
 											</svg>
@@ -58,13 +58,6 @@
 										</button>
 									</div>
 									<div class="info-worker">
-										<%-- Listar Ciudades, Provincias y Distritos --%>
-										<%
-											DAOFactory fabrica = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
-											ArrayList<CargoDTO> listaCargos = fabrica.getCargoDAO().listarCargos();
-											request.setAttribute("listaCargos", listaCargos);
-											   
-										%>
 										<div class="form-cont ubg">
 											<label class="label-form" for="">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
@@ -88,11 +81,9 @@
 											</svg>
 											Cargo
 											</label>
-											<select class="input-form" name="cargo" id="">
+											<select class="input-form" name="cargo">
 												<option value="-1">Seleccionar</option>
-												<c:forEach items="${listaCargos }" var="c">
-													<option value="${c.idCargo }">${c.cargo }</option>                        	
-												</c:forEach>
+												<option th:each="c : ${listaCargos}" th:value="${c.idCargo }" th:text="${c.cargo }"></option>                        	
 											</select>
 										</div>
 										<div class="form-cont ubg">
@@ -110,11 +101,15 @@
 											</select>
 										</div>
 									</div>
-									<c:if test="${reporte != null }">
-										<object class="report-cont" data="${reporte }" type="application/pdf">
-										  <embed src="${reporte }" type="application/pdf" />
-										</object>									
-									</c:if>
+									<p
+										th:if="${mensaje} != null"
+										class="message-t"
+										th:text="${mensaje}"
+										>
+									</p>
+									<object th:if="${reporte} != null" class="report-cont" th:data="${reporte }" type="application/pdf">
+									  <embed th:src="${reporte }" type="application/pdf" />
+									</object>									
 								</div>
 							</section>
 						</form>

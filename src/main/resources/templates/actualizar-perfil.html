@@ -12,12 +12,12 @@
 			<div class="main-cont">
 				<main>
                     <div>
-						<form action="perfil" method="post" enctype="multipart/form-data">
-							<c:if test="${mensaje != null }">
-								<div class="mensaje-registro">
-									${mensaje}
-								</div>	
-							</c:if>
+						<form action="/perfil/actualizar" method="post" enctype="multipart/form-data">
+							<div
+								th:if="${mensajeRegistro} != null"
+								class="mensaje-registro"
+								th:text="${mensajeRegistro}"
+							></div>
 							<section class="head-page">
 								<div class="title-page">
 									<h1>Actualizar Perfil</h1>
@@ -27,7 +27,7 @@
 								<div class="fieldset">
 									<h2>Perfil</h2>
 								</div>
-								<div class="form-information">
+								<div class="form-information" th:object="${perfil}">
 									<div class="info-worker">
 										<div class="form-cont name">
 											<label class="label-form" for="nombres">
@@ -36,7 +36,7 @@
 											</svg>
 											Nombres
 											</label>
-											<input class="input-form" type="text" name="nombres" id="nombres" value="${perfil.nombres }">
+											<input class="input-form" type="text" th:field="*{nombres}" id="nombres">
 										</div>
 									</div>								
 									<div class="info-worker">
@@ -47,7 +47,7 @@
 											</svg>
 											Apellidos
 											</label>
-											<input class="input-form" type="text" name="apellidos" id="apellidos" value="${perfil.apellidos }">
+											<input class="input-form" type="text" th:field="*{apellidos}" id="apellidos">
 										</div>
 									</div>								
 									<div class="info-worker">
@@ -66,7 +66,7 @@
 								<div class="fieldset">
 									<h2>Cambiar Contraseña</h2>
 								</div>
-								<div class="form-information">
+								<div class="form-information" th:object="${usuario}">
 									<div class="info-worker">
 										<div class="form-cont name">
 											<label class="label-form" for="usuario">
@@ -75,7 +75,7 @@
 											</svg>
 											usuario
 											</label>
-											<input class="input-form" type="text" name="usuario" id="usuario" value="${perfil.usuario }" disabled>
+											<input class="input-form" type="text" th:field="*{usuario}" id="usuario" value="${perfil.usuario }" disabled>
 										</div>
 									</div>								
 									<div class="info-worker">

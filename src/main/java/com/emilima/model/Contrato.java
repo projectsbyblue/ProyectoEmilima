@@ -36,11 +36,11 @@ public class Contrato {
 	private String horaIng;
 	@Column(name = "horasal")
 	private String horaSal;
-	@Column(name = "fechareg", updatable = false)
+	@Column(name = "fechareg")
 	private String fechaReg;
 	@Column(name = "contratopdf")
 	private String contratoPdf;
-	@Column(name = "estado", updatable = false)
+	@Column(name = "estado")
 	private String estado;
 	private int temporada;
 
