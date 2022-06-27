@@ -12,7 +12,7 @@
 			<div class="main-cont">
 				<main>
                     <div>
-						<form action="Contrato" method="post">
+						<form action="/contrato/registro" method="post" name="form">
 							<div
 								th:if="${mensajeRegistro} != null"
 								class="mensaje-registro"
@@ -24,7 +24,7 @@
 								class="mensaje-ver-contrato"
 								
 							>
-								<a th:href="@{rutacontrato }" target="_blank">Vizualizar Contrato Generado</a>
+								<a th:href="${rutacontrato }" target="_blank">Vizualizar Contrato Generado</a>
 							</div>
 							
 							<section class="head-page">
@@ -32,7 +32,7 @@
 									<h1>Elaborar Contrato Laboral</h1>
 								</div>
 								<div>
-									<select class="box-tipc" name="tipoContrato" id="">
+									<select class="box-tipc" name="tipoContrato">
 										<option value="asignacion" selected>Asignacion de plaza</option>
 										<option value="renovacion">Renovacion de contrato</option>
 									</select>
@@ -59,14 +59,14 @@
 												th:field="*{dni}" 
 												placeholder="Ingresar Numero de DNI" 
 												required>
-											<button class="btn btn-dni" type="submit" value="b" name="opcion">
+											<button class="btn btn-dni" type="submit" name="opcion" value="buscar">
 												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
 													<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
 												</svg>
 											</button>
 										</div>
 										<p
-											th:if="${rutacontrato} != null"
+											th:if="${mensajeTrabajador} != null"
 											class="message-t"
 											th:text="${mensajeTrabajador}"
 											>
@@ -83,7 +83,7 @@
 											<input 
 												class="input-form" 
 												type="text" 
-												th:label="*{nombres}" 
+												th:field="*{nombres}" 
 												id="nombres" 
 												placeholder="Ingresar nombres" >
 										</div>
@@ -97,7 +97,7 @@
 											<input 
 												class="input-form" 
 												type="text" 
-												th:label="*{apellidos}" 
+												th:field="*{apellidos}" 
 												id="apellidos" 
 												placeholder="Ingresar apellidos" >
 										</div>
@@ -114,7 +114,7 @@
 											<input 
 												class="input-form" 
 												type="text" 
-												th:label="*{direccion}" 
+												th:field="*{direccion}" 
 												id="direccion"
 												placeholder="Ingresar direccion" >
 										</div>
@@ -127,18 +127,9 @@
 											</svg>
 											Ciudad
 											</label>
-											<select class="input-form" name="ciudad" id="ciudad" onchange="listarProvincias()" >
-												<c:if test="${trabajador != null }">
-													<c:forEach items="${listaProvincias }" var="provincia">
-														<c:if test="${provincia.idProvincia == trabajador.idProvincia }">
-															<option value="${provincia.idProvincia }">${provincia.provincia }</option> 
-														</c:if>
-													</c:forEach>
-												</c:if>
-												<option value="-1">Seleccionar</option>                        	
-												<c:forEach items="${listaCiudades }" var="ciudad">
-													<option value="${ciudad.idCiudad }">${ciudad.ciudad }</option>                        	
-												</c:forEach>
+											<select class="input-form" id="ciudad" onchange="listarProvincias()" th:field="*{idCiudad}" >
+												<option value="-1">Seleccionar</option>
+												<option value="1">Test</option>
 											</select>
 										</div>
 										<div class="form-cont">
@@ -150,40 +141,22 @@
 											</svg>
 											Provincia
 											</label>
-											<select class="input-form" name="provincia" id="" >
-												<c:if test="${trabajador != null }">
-													<c:forEach items="${listaProvincias }" var="provincia">
-														<c:if test="${provincia.idProvincia == trabajador.idProvincia }">
-															<option value="${provincia.idProvincia }">${provincia.provincia }</option> 
-														</c:if>
-													</c:forEach>"
-												</c:if>
+											<select class="input-form" id="provincia" th:field="*{idProvincia}">
 												<option value="-1">Seleccionar</option>
-												<c:forEach items="${listaProvincias }" var="provincia">
-													<option value="${provincia.idProvincia }">${provincia.provincia }</option>                        	
-												</c:forEach>
+												<option value="1">Test</option>
 											</select>
 										</div>
 										<div class="form-cont ubg">
-											<label class="label-form" for="">
-											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
-												<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
-												<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-											</svg>
-											Distrito
+											<label class="label-form" for="distrito">
+												<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+													<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+													<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+												</svg>
+												Distrito
 											</label>
-											<select class="input-form" name="distrito" id="">
-												<c:if test="${trabajador != null }">
-													<c:forEach items="${listaDistritos }" var="distrito">
-														<c:if test="${distrito.idDistrito == trabajador.idDistrito }">
-															<option value="${distrito.idDistrito }">${distrito.distrito }</option> 
-														</c:if>
-													</c:forEach>
-												</c:if>
+											<select class="input-form" id="distrito" th:field="*{idDistrito}">
 												<option value="-1">Seleccionar</option>
-												<c:forEach items="${listaDistritos }" var="distrito">
-													<option value="${distrito.idDistrito }">${distrito.distrito }</option>                        	
-												</c:forEach>
+												<option value="1">Test</option>
 											</select>
 										</div>
 									</div>
@@ -204,7 +177,7 @@
 											<input 
 												class="input-form" 
 												type="text" 
-												th:label="*{motivo}" 
+												th:field="*{motivo}" 
 												id="motivo" 
 												placeholder="Motivo de contratación" >
 										</div>
@@ -220,7 +193,7 @@
 												<input 
 													class="input-form time" 
 													type="number" 
-													th:label="*{temporada}" 
+													th:field="*{temporada}" 
 													id="temporada" 
 													placeholder="" >
 												 mes(es)
@@ -234,11 +207,10 @@
 											</svg>
 											Cargo
 											</label>
-										   <select class="input-form" name="cargo" id="cargo" >
+										   <select class="input-form" name="cargo" id="cargo" th:field="*{idcargo}">
 											   <option value="-1">Seleccionar</option>
-											   <c:forEach items="${listaCargos }" var="cargo">
-													<option value="${cargo.idCargo }">${cargo.cargo }</option>                        	
-												</c:forEach>
+											   <option th:each="c : ${listaCargos}" th:value="${c.idCargo}" th:text="${c.cargo}"></option>
+											   
 										   </select>
 										</div>
 									</div>
@@ -254,7 +226,7 @@
 											<input 
 												class="input-form" 
 												type="date" 
-												th:label="*{fechaInicio}" 
+												th:field="*{fechaInicio}" 
 												id="fecInicio" 
 												placeholder="" >
 										</div>
@@ -266,7 +238,7 @@
 											</svg>
 											Periodo de Prueba
 											</label>
-											<select class="input-form" name="periodoPrueba" id="periodoPrueba">
+											<select class="input-form" name="periodoPrueba" id="periodoPrueba" th:field="*{periodoPrueba}">
 												<option value="3">3 meses</option>
 												<option value="6">6 meses</option>
 												<option value="12">12 meses</option>
@@ -284,13 +256,13 @@
 												<input 
 													class="input-form time" 
 													type="text" 
-													th:label="*{horaIng}" 
+													th:field="*{horaIng}" 
 													id="horaIngreso" 
 													placeholder="" > A
 												<input 
 													class="input-form time" 
 													type="text" 
-													th:label="horaSal" 
+													th:field="*{horaSal}" 
 													id="horaSalida" 
 													placeholder="" >
 											</div>
@@ -308,13 +280,13 @@
 											<input 
 												class="input-form" 
 												type="text" 
-												th:label="*{remuneracion}" 
+												th:field="*{remuneracion}" 
 												id="remuneracion" 
 												placeholder="S/. Remuneración">
 										</div>
 									</div>
 									<div class="btn-c-cont">
-										<button class="btn btn-submit btn-c" id="m_sweetalert_demo_6" type="submit" value="r" name="opcion">
+										<button class="btn btn-submit btn-c" id="m_sweetalert_demo_6" type="submit"name="opcion" value="registrar">
 											<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save2-fill" viewBox="0 0 16 16">
 												<path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2v-6z"/>
 											</svg>
