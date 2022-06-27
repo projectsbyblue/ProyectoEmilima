@@ -1,6 +1,8 @@
 package com.emilima.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -105,12 +107,26 @@ public class ContratoController {
 	@GetMapping("/contrato/lista")
 	public String listar(@ModelAttribute Contrato contrato, Model model) {
 		model.addAttribute("listaContratos", contratoRepo.findAll());
+		model.addAttribute("contrato", new Contrato());
 		return "buscar-contrato";
 	}
 	
 	@PostMapping("/contrato/buscar")
-	public String buscar(@RequestParam(name = "idContrato") String idcontrato, @ModelAttribute Contrato contrato, Model model) {
-		model.addAttribute("listaContratos", contratoRepo.findById(idcontrato));
+	public String buscar(@ModelAttribute Contrato contrato, Model model) {
+		System.out.println(contrato.getIdContrato());
+		ArrayList<Contrato> listaContratos = new ArrayList<Contrato>();
+		
+		Optional<Contrato> reg = contratoRepo.findById(contrato.getIdContrato());
+		
+		if( reg.isPresent()) {
+			contrato = reg.get();
+			listaContratos.add(contrato);
+			model.addAttribute("listaContratos", listaContratos);
+		} else {
+			model.addAttribute("mensajeContrato", "Contrato no encontrado");
+			model.addAttribute("listaContratos", contratoRepo.findAll());
+		}
+		
 		return "buscar-contrato";
 	}
 	
@@ -118,12 +134,14 @@ public class ContratoController {
 	public String actualizar(@RequestParam(name = "id") String id,Model model) {
 		// validar archivo y guardar
 		Contrato contrato = null;
-		contrato = contratoRepo.findById(id).get();
+		Optional<Contrato> reg = contratoRepo.findById(id);
 		
-		if(contrato == null) {
+		if(!reg.isPresent()) {
 			model.addAttribute("mensaje", "Error al actualizar contrato");
+			return "buscar-contrato";
 		}
 		
+		contrato = reg.get();
 		contrato.setEstado("Visado y Firmado");
 		contrato.setContratoPdf("");
 		
